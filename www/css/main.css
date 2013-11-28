@@ -3,6 +3,7 @@ body {
   padding-bottom: 20px;
 }
 .game-area td {
+  position: relative;
   height: 25px;
   width: 25px;
   border: 1px solid #888;
@@ -51,4 +52,14 @@ body {
 }
 .win {
   background-color: #afa;
+}
+.game-area .middle-click-shadow::after {
+    content: ' ';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: #5aa;
+    opacity: 0.3;
 }
