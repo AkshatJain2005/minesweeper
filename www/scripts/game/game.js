@@ -19,7 +19,7 @@ define(['zepto', 'random'], function($, r) {
     };
 
     $(document).on('click', '.game-area td', function() {
-        $(this).css('background-color', 'red');
+        $(this).addClass('revealed');
     });
 
     $(document).on('click', '.game-reset', function() {
