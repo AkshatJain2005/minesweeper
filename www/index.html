@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Minesweeper</title>
+  <meta name="description" content="A simple minesweeper game">
+  <meta name="viewport" content="width=device-width">
+
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <style>
+  body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+  }
+  .game-area td {
+    height: 20px;
+    width: 20px;
+    background-color: #666;
+    border: 1px solid black;
+  }
+  .game-area {
+    background-color: #555;
+    border-collapse: collapse;
+    margin: 20px;
+  }
+  </style>
+  <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+  <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Minesweeper</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Example row of columns -->
+    <table class="game-area">
+
+    </table>
+
+    <a class="btn btn-primary game-reset" href="#" onClick="javascript:void(0);"><i class="glyphicon glyphicon-refresh"></i> New Game</a>
+
+    <hr>
+
+    <footer>
+        <!-- TODO: Add to github
+        <p>Source code at <a href="https://github.com/spoike/html5-game">GitHub</a></p>
+      -->
+      <p>&copy; Mikael Brassman 2013</p>
+    </footer>
+    <script data-main="scripts/main.js" src="scripts/require.js"></script>
+  </div> <!-- /container -->    
+</body>
+</html>
