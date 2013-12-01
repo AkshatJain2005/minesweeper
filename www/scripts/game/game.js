@@ -5,12 +5,16 @@ define(['zepto', 'random'], function($, r) {
     bombs = 10, 
     gameTable, 
     isGameOver = true,
-    putBombs = function() {
+    isFirstMove = true,
+    putBombs = function(except) {
         var bCount = bombs, x, y, curr;
 
         while(bCount > 0) {
             y = r.getRandomInt(0, rows-1);
             x = r.getRandomInt(0, cols-1);
+            if(except.x === x && except.y === y) {
+                continue;
+            }
             curr = gameTable[y][x];
             if (!curr.hasBomb) {
                 curr.hasBomb = true;
@@ -22,6 +26,7 @@ define(['zepto', 'random'], function($, r) {
         var i;
 
         isGameOver = false;
+        isFirstMove = true;
         $('body').removeClass('fail').removeClass('win');
 
         $('.game-area').children().remove();
@@ -30,8 +35,6 @@ define(['zepto', 'random'], function($, r) {
         for (i = 0; i < rows; i++) {
             gameTable.push(addRow(i));
         }
-
-        putBombs();
     }, 
     addRow = function(yIdx) {
         var row = $('<tr></tr>'), i, col, datarow = [];
@@ -118,6 +121,13 @@ define(['zepto', 'random'], function($, r) {
             x = $e.data('x'),
             y = $e.data('y'),
             data = gameTable[y][x];
+        if (isFirstMove) {
+            putBombs({
+                x: x,
+                y: y
+            });
+            isFirstMove = false;
+        }
 
         if(data.hasBomb) {
             $e.addClass('bomb');
