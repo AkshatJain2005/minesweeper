@@ -152,7 +152,7 @@ define(['zepto', 'random'], function($, r) {
             if (hasRevealedAllTiles()) {
                 isGameOver = true;
                 $('body').addClass('win');
-                revealBombs();
+                revealBombs('flag');
             }
         }
     });
