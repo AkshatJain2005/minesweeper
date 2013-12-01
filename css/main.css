@@ -3,12 +3,12 @@ body {
   padding-bottom: 20px;
 }
 .game-area td {
-  height: 20px;
-  width: 20px;
+  height: 25px;
+  width: 25px;
   border: 1px solid #888;
   cursor: pointer;
   text-align: center;
-  font-size: 11px;
+  font-size: 15px;
   font-weight: bold;
   vertical-align: middle;
 }
@@ -17,17 +17,28 @@ body {
 }
 .game-area .revealed {
   background-color: #eee;
-  border: none;
+  border: 1px solid #eee;
 }
 .game-area .revealed:hover {
   background-color: #eee;
 }
 .game-area .bomb {
   background-color: #000;
-  border: none;
 }
 .game-area .bomb:hover {
   background-color: #000;
+}
+.game-area .bomb.hit {
+  background-color: #f00;
+}
+.game-area .bomb.hit:hover {
+  background-color: #f00;
+}
+.game-area .flag {
+  background-color: #fc5;
+}
+.game-area .flag:hover {
+  background-color: #fc5;
 }
 .game-area {
   background-color: #aaa;
