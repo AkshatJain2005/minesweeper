@@ -12,13 +12,22 @@ body {
   font-weight: bold;
   vertical-align: middle;
 }
+.game-area td:hover {
+  background-color: #fcc;
+}
 .game-area .revealed {
   background-color: #eee;
   border: none;
 }
+.game-area .revealed:hover {
+  background-color: #eee;
+}
 .game-area .bomb {
   background-color: #000;
   border: none;
+}
+.game-area .bomb:hover {
+  background-color: #000;
 }
 .game-area {
   background-color: #aaa;
