@@ -1,8 +1,8 @@
-# HTML 5 Game Prototype 
+# Minesweeper 
 
-This is a game prototype that is implemented using AMD modules. 
+This is a game prototype I wrote that is implemented using AMD modules.
 
-You can play this with the github page for this project at http://spoike.github.io/html5-game/
+You can play this with the github page for this project at http://spoike.github.io/minesweeper/
 
 ## How To Dev
 
