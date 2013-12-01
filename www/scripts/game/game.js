@@ -1,6 +1,21 @@
 define(['zepto', 'random'], function($, r) {
 
-    var rows = 10, cols = 10, gameTable, resetGame = function() {
+    var rows = 10, cols = 10, bombs = 10, gameTable, putBombs = function() {
+        var bCount = bombs, x, y, curr;
+
+        while(bCount > 0) {
+            y = r.getRandomInt(0, rows-1);
+            x = r.getRandomInt(0, cols-1);
+            curr = gameTable[y][x];
+            if (!curr.hasBomb) {
+                curr.hasBomb = true;
+                bCount--;
+            }
+        }
+
+        //gameTable[4][4].hasBomb = true;
+    },
+    resetGame = function() {
         var i;
 
         $('.game-area').children().remove();
@@ -10,7 +25,7 @@ define(['zepto', 'random'], function($, r) {
             gameTable.push(addRow(i));
         }
 
-        gameTable[4][4].hasBomb = true;
+        putBombs();
     }, 
     addRow = function(yIdx) {
         var row = $('<tr></tr>'), i, col, datarow = [];
