@@ -36,8 +36,8 @@ body {
   padding: 0;
 }
 .fail {
-  background-color: maroon;
+  background-color: #faa;
 }
 .win {
-  background-color: lime;
+  background-color: #afa;
 }
