@@ -2,8 +2,7 @@ requirejs.config({
     baseUrl: 'scripts/game',
     paths: {
         'zepto': '../lib/zepto.min',
-        'bootstrap': '../lib/bootstrap.min',
-        'dropdown': '../lib/dropdown'
+        'bootstrap': '../lib/bootstrap.min'
     },
     shim: {
         'zepto': {
