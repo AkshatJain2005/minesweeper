@@ -1,7 +1,7 @@
 define(['zepto', 'random'], function($, r) {
 
-    var rows = 10, 
-    cols = 10, 
+    var rows = 9, 
+    cols = 9, 
     bombs = 10, 
     gameTable, 
     isGameOver = true,
