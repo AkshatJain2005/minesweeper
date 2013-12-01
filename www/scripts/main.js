@@ -1,7 +1,9 @@
 requirejs.config({
     baseUrl: 'scripts/game',
     paths: {
-        'zepto': '../lib/zepto.min'
+        'zepto': '../lib/zepto.min',
+        'bootstrap': '../lib/bootstrap.min',
+        'dropdown': '../lib/dropdown'
     },
     shim: {
         'zepto': {
@@ -10,6 +12,5 @@ requirejs.config({
     }
 });
 
-define(['utils', 'game'], function() {
-
+define(['zepto', 'utils', 'game', 'othergames'], function($) {
 });
