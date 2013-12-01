@@ -1,0 +1,42 @@
+body {
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
+.game-area td {
+  height: 20px;
+  width: 20px;
+  border: 1px solid #888;
+  cursor: pointer;
+  text-align: center;
+  font-size: 11px;
+  font-weight: bold;
+  vertical-align: middle;
+}
+.game-area td:hover {
+  background-color: #fcc;
+}
+.game-area .revealed {
+  background-color: #eee;
+  border: 1px solid #eee;
+}
+.game-area .revealed:hover {
+  background-color: #eee;
+}
+.game-area .bomb {
+  background-color: #000;
+}
+.game-area .bomb:hover {
+  background-color: #000;
+}
+.game-area {
+  background-color: #aaa;
+  border-collapse: collapse;
+  margin: 20px auto;
+  padding: 0;
+}
+.fail {
+  background-color: #faa;
+}
+.win {
+  background-color: #afa;
+}
