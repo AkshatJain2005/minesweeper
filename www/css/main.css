@@ -17,14 +17,13 @@ body {
 }
 .game-area .revealed {
   background-color: #eee;
-  border: none;
+  border: 1px solid #eee;
 }
 .game-area .revealed:hover {
   background-color: #eee;
 }
 .game-area .bomb {
   background-color: #000;
-  border: none;
 }
 .game-area .bomb:hover {
   background-color: #000;
