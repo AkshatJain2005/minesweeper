@@ -12,8 +12,6 @@ define(['zepto', 'random'], function($, r) {
                 bCount--;
             }
         }
-
-        //gameTable[4][4].hasBomb = true;
     },
     resetGame = function() {
         var i;
