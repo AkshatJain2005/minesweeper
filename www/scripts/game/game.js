@@ -1,6 +1,11 @@
 define(['zepto', 'random'], function($, r) {
 
-    var rows = 10, cols = 10, bombs = 10, gameTable, putBombs = function() {
+    var rows = 10, 
+    cols = 10, 
+    bombs = 10, 
+    gameTable, 
+    isGameOver = true,
+    putBombs = function() {
         var bCount = bombs, x, y, curr;
 
         while(bCount > 0) {
@@ -15,6 +20,9 @@ define(['zepto', 'random'], function($, r) {
     },
     resetGame = function() {
         var i;
+
+        isGameOver = false;
+        $('body').removeClass('fail').removeClass('win');
 
         $('.game-area').children().remove();
         gameTable = [];
@@ -87,9 +95,25 @@ define(['zepto', 'random'], function($, r) {
                 reveal(curr.x, curr.y);
             }
         }
+    },
+    hasRevealedAllTiles = function() {
+        var i, j, currRow, currCol;
+        for (i = 0; i < gameTable.length; i++) {
+            currRow = gameTable[i];
+            for (j = 0; j < gameTable.length; j++) {
+                currCol = currRow[j];
+                if (!currCol.hasBomb && !currCol.e.hasClass('revealed')) {
+                    return false;
+                }
+            }
+        }
+        return true;
     };
 
     $(document).on('click', '.game-area td', function() {
+        if (isGameOver) {
+            return;
+        }
         var $e = $(this),
             x = $e.data('x'),
             y = $e.data('y'),
@@ -97,8 +121,14 @@ define(['zepto', 'random'], function($, r) {
 
         if(data.hasBomb) {
             $e.addClass('bomb');
+            isGameOver = true;
+            $('body').addClass('fail');
         } else {
             reveal(x, y);
+            if (hasRevealedAllTiles()) {
+                isGameOver = true;
+                $('body').addClass('win');
+            }
         }
     });
 
