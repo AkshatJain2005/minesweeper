@@ -147,6 +147,7 @@ define(['zepto', 'random'], function($, r) {
             isGameOver = true;
             revealBombs();
             $('body').addClass('fail');
+            data.e.addClass('hit');
         } else {
             reveal(x, y);
             if (hasRevealedAllTiles()) {

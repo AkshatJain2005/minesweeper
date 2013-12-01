@@ -28,6 +28,12 @@ body {
 .game-area .bomb:hover {
   background-color: #000;
 }
+.game-area .bomb.hit {
+  background-color: #f00;
+}
+.game-area .bomb.hit:hover {
+  background-color: #f00;
+}
 .game-area .flag {
   background-color: #fc5;
 }
