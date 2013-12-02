@@ -84,7 +84,7 @@ define(['zepto', 'random'], function($, r) {
     reveal = function(x, y) {
         var bombsFound, i, neighbors, curr, data = gameTable[y][x];
 
-        if(data.e.hasClass('revealed')) {
+        if(data.e.hasClass('revealed') || data.e.hasClass('flag')) {
             return;
         }
         bombsFound = findBombs(x, y);
@@ -124,17 +124,10 @@ define(['zepto', 'random'], function($, r) {
                 }
             }
         }
-    };
+    },
+    handleTile = function(x, y) {
+        var data = gameTable[y][x];
 
-    $(document).on('click', '.game-area td', function() {
-        if (isGameOver) {
-            resetGame();
-            return;
-        }
-        var $e = $(this),
-            x = $e.data('x'),
-            y = $e.data('y'),
-            data = gameTable[y][x];
         if (isFirstMove) {
             putBombs({
                 x: x,
@@ -143,7 +136,9 @@ define(['zepto', 'random'], function($, r) {
             isFirstMove = false;
         }
 
-        if(data.hasBomb) {
+        if(data.e.hasClass('flag')) {
+            data.e.removeClass('flag');
+        } else if(data.hasBomb) {
             isGameOver = true;
             revealBombs();
             $('body').addClass('fail');
@@ -156,6 +151,38 @@ define(['zepto', 'random'], function($, r) {
                 revealBombs('flag');
             }
         }
+    },
+    toggleFlag = function(x, y) {
+        var data = gameTable[y][x];
+
+        data.e.toggleClass('flag');
+
+        return false;
+    };
+
+    $(document).on('click', '.game-area td', function() {
+        if (isGameOver) {
+            resetGame();
+            return;
+        }
+        var $e = $(this),
+            x = $e.data('x'),
+            y = $e.data('y');
+
+        handleTile(x, y);
+    });
+
+    $(document).on('contextmenu', '.game-area td', function(evt) {
+        if (isGameOver) {
+            return;
+        }
+        var $e = $(this),
+            x = $e.data('x'),
+            y = $e.data('y');
+
+        toggleFlag(x, y);
+
+        evt.preventDefault();
     });
 
     $(document).on('click', '.game-reset', function() {
