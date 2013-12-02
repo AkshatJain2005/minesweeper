@@ -186,6 +186,10 @@ define(['zepto', 'random'], function($, r) {
     });
 
     $(document).on('click', '.game-reset', function() {
+        var $this = $(this);
+        rows = $this.data('rows');
+        cols = $this.data('cols');
+        bombs = $this.data('bombs');
         resetGame();
     });
 
