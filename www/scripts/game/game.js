@@ -117,7 +117,7 @@ define(['zepto', 'random'], function($, r) {
         css = css || 'bomb';
         for (i = 0; i < gameTable.length; i++) {
             currRow = gameTable[i];
-            for (j = 0; j < gameTable.length; j++) {
+            for (j = 0; j < currRow.length; j++) {
                 currCol = currRow[j];
                 if (currCol.hasBomb) {
                     currCol.e.addClass(css);
