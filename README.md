@@ -13,4 +13,4 @@ You can play this with the github page for this project at http://spoike.github.
 
 ## License
 
-Copyright (c) 2013 Mikael Brassman
+[MIT License](http://opensource.org/licenses/MIT), Copyright (c) 2013 Mikael Brassman
