@@ -103,7 +103,7 @@ define(['zepto', 'random'], function($, r) {
         var i, j, currRow, currCol;
         for (i = 0; i < gameTable.length; i++) {
             currRow = gameTable[i];
-            for (j = 0; j < gameTable.length; j++) {
+            for (j = 0; j < currRow.length; j++) {
                 currCol = currRow[j];
                 if (!currCol.hasBomb && !currCol.e.hasClass('revealed')) {
                     return false;
