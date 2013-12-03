@@ -6,6 +6,7 @@ define(['zepto', 'random'], function($, r) {
     gameTable, 
     isGameOver = true,
     isFirstMove = true,
+    middleButtonDown = false,
     putBombs = function(except) {
         var bCount = bombs, x, y, curr;
 
@@ -125,8 +126,19 @@ define(['zepto', 'random'], function($, r) {
             }
         }
     },
-    handleTile = function(x, y) {
+    handleTile = function(x, y, condition) {
+        // Early exit if game is over
+        if (isGameOver) {
+            return;
+        }
+
         var data = gameTable[y][x];
+        
+        if (condition) {
+            if (!condition(data)) {
+                return;
+            }
+        }
 
         if (isFirstMove) {
             putBombs({
@@ -158,9 +170,45 @@ define(['zepto', 'random'], function($, r) {
         data.e.toggleClass('flag');
 
         return false;
+    },
+    setMiddleClickShadow = function (x, y) {
+        hideMiddleClickShadow();
+        
+        callForMiddleClickArea(x, y, function (x, y) {
+            var data = gameTable[y][x];
+            data.e.addClass('middle-click-shadow');
+        });
+        
+        middleButtonDown = true;
+    },
+    hideMiddleClickShadow = function () {
+        $('.middle-click-shadow').removeClass('middle-click-shadow');
+        middleButtonDown = false;
+    },
+    callForMiddleClickArea = function (x, y, f) {
+        for (var i = -1; i <= 1; i++) {
+            for (var j = -1; j <= 1; j++) {
+                if (gameTable && gameTable[y + j] && gameTable[y + j][x + i]) {
+                    f(x + i, y + j);
+                }
+            }
+        }
+    },
+    handleMiddleClick = function (x, y) {
+        callForMiddleClickArea(x, y, function (x, y) {
+            handleTile(x, y, function (data) {
+                // We only want to reveal unflagged tiles
+                return !data.e.hasClass('flag');
+            });
+        });
     };
 
-    $(document).on('click', '.game-area td', function() {
+    $(document).on('click', '.game-area td', function(evt) {
+        // Only handle left-click
+        if (evt.which != 1) {
+            return;
+        }
+        
         if (isGameOver) {
             resetGame();
             return;
@@ -183,6 +231,61 @@ define(['zepto', 'random'], function($, r) {
         toggleFlag(x, y);
 
         evt.preventDefault();
+    });
+    
+    $(document).on('mousedown', '.game-area td', function (evt) {
+        if (evt.which != 2) {
+            // Only handle middle button
+            return;
+        }
+
+        if (isGameOver) {
+            return;
+        }
+        
+        var $e = $(this),
+            x = $e.data('x'),
+            y = $e.data('y');
+            
+        setMiddleClickShadow(x, y);
+        evt.preventDefault();
+        evt.stopPropagation();
+        evt.stopImmediatePropagation();
+        return false;
+    });
+    
+    $(document).on('mouseenter', '.game-area td', function (evt) {
+        if (!middleButtonDown) {
+            // Only handle while middle button is pressed
+            return;
+        }
+        
+        var $e = $(this),
+            x = $e.data('x'),
+            y = $e.data('y');
+            
+        setMiddleClickShadow(x, y);
+    })
+    
+    $(document).on('mouseup', '.game-area td', function (evt) {
+        if (!middleButtonDown) {
+            // Only handle while middle button is pressed
+            return;
+        }
+        
+        var $e = $(this),
+            x = $e.data('x'),
+            y = $e.data('y');
+
+        hideMiddleClickShadow();
+        handleMiddleClick(x, y);
+    });
+    
+    $(document).on('mouseup', function (evt) {
+        // Middle button up outside the game area cells
+        if (middleButtonDown) {
+            hideMiddleClickShadow();
+        }
     });
 
     $(document).on('click', '.game-reset', function() {
