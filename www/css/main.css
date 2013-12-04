@@ -25,6 +25,7 @@ body {
 }
 .game-area .bomb {
   background-color: #000;
+  color: white;
 }
 .game-area .bomb:hover {
   background-color: #000;
