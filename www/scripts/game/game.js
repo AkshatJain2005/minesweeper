@@ -1,4 +1,4 @@
-define(['zepto', 'random'], function($, r) {
+define(['zepto', 'random', 'log'], function($, r, log) {
 
     var rows = 9, 
     cols = 9, 
@@ -22,6 +22,7 @@ define(['zepto', 'random'], function($, r) {
                 bCount--;
             }
         }
+        log.event('start');
     },
     resetGame = function() {
         var i;
@@ -36,6 +37,8 @@ define(['zepto', 'random'], function($, r) {
         for (i = 0; i < rows; i++) {
             gameTable.push(addRow(i));
         }
+
+        log.event('reset', 'r:' + rows + ',c:' + cols + ',bombs:' + bombs);
     }, 
     addRow = function(yIdx) {
         var row = $('<tr></tr>'), i, col, datarow = [];
@@ -158,12 +161,14 @@ define(['zepto', 'random'], function($, r) {
             revealBombs();
             $('body').addClass('fail');
             data.e.addClass('hit');
+            log.event('gameover', 'fail');
         } else {
             reveal(x, y);
             if (hasRevealedAllTiles()) {
                 isGameOver = true;
                 $('body').addClass('win');
                 revealBombs('flag');
+                log.event('gameover', 'win');
             }
         }
     },
@@ -303,6 +308,7 @@ define(['zepto', 'random'], function($, r) {
         rows = $this.data('rows');
         cols = $this.data('cols');
         bombs = $this.data('bombs');
+        log.event('button', $this.text());
         resetGame();
     });
 
