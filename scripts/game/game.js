@@ -1,4 +1,4 @@
-define(['zepto', 'random'], function($, r) {
+define(['zepto', 'random', 'log'], function($, r, log) {
 
     var rows = 9, 
     cols = 9, 
@@ -22,6 +22,7 @@ define(['zepto', 'random'], function($, r) {
                 bCount--;
             }
         }
+        log.event('start');
     },
     resetGame = function() {
         var i;
@@ -36,6 +37,8 @@ define(['zepto', 'random'], function($, r) {
         for (i = 0; i < rows; i++) {
             gameTable.push(addRow(i));
         }
+
+        log.event('reset', 'r:' + rows + ',c:' + cols + ',bombs:' + bombs);
     }, 
     addRow = function(yIdx) {
         var row = $('<tr></tr>'), i, col, datarow = [];
@@ -121,7 +124,12 @@ define(['zepto', 'random'], function($, r) {
             for (j = 0; j < currRow.length; j++) {
                 currCol = currRow[j];
                 if (currCol.hasBomb) {
+                    if (!currCol.e.hasClass('flag')) {
+                        currCol.e.append('<i class="glyphicon glyphicon-asterisk"></i>');
+                    }
                     currCol.e.addClass(css);
+                } else if (currCol.e.hasClass('flag')) {
+                    currCol.e.removeClass('flag');
                 }
             }
         }
@@ -148,26 +156,33 @@ define(['zepto', 'random'], function($, r) {
             isFirstMove = false;
         }
 
-        if(data.e.hasClass('flag')) {
-            data.e.removeClass('flag');
-        } else if(data.hasBomb) {
+        if(data.hasBomb && !data.e.hasClass('flag')) {
             isGameOver = true;
             revealBombs();
             $('body').addClass('fail');
             data.e.addClass('hit');
+            log.event('gameover', 'fail');
         } else {
             reveal(x, y);
             if (hasRevealedAllTiles()) {
                 isGameOver = true;
                 $('body').addClass('win');
                 revealBombs('flag');
+                log.event('gameover', 'win');
             }
         }
     },
     toggleFlag = function(x, y) {
         var data = gameTable[y][x];
 
-        data.e.toggleClass('flag');
+        if(!data.e.hasClass('revealed')) {
+            data.e.toggleClass('flag');
+            if (data.e.hasClass('flag')) {
+                data.e.append('<i class="glyphicon glyphicon-flag"></i>');
+            } else {
+                data.e.children().remove();
+            }
+        }
 
         return false;
     },
@@ -265,7 +280,7 @@ define(['zepto', 'random'], function($, r) {
             y = $e.data('y');
             
         setMiddleClickShadow(x, y);
-    })
+    });
     
     $(document).on('mouseup', '.game-area td', function (evt) {
         if (!middleButtonDown) {
@@ -293,6 +308,7 @@ define(['zepto', 'random'], function($, r) {
         rows = $this.data('rows');
         cols = $this.data('cols');
         bombs = $this.data('bombs');
+        log.event('button', $this.text());
         resetGame();
     });
 
