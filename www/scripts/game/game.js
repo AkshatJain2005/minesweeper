@@ -167,7 +167,9 @@ define(['zepto', 'random'], function($, r) {
     toggleFlag = function(x, y) {
         var data = gameTable[y][x];
 
-        data.e.toggleClass('flag');
+        if(!data.e.hasClass('revealed')) {
+            data.e.toggleClass('flag');
+        }
 
         return false;
     },
