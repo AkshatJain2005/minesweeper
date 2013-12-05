@@ -11,5 +11,7 @@ requirejs.config({
     }
 });
 
-define(['zepto', 'utils', 'game', 'othergames'], function($) {
+define(['utils', 'game'], function() {
+    require(['othergames'], function() {
+    });
 });
