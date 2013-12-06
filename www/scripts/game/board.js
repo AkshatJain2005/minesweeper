@@ -1,4 +1,4 @@
-define(['log', 'random', 'zepto'], function(log, r, $) {
+define(['log', 'random', 'zepto', 'views'], function(log, r, $, views) {
     
     var rows = 9, 
     cols = 9, 
@@ -8,6 +8,7 @@ define(['log', 'random', 'zepto'], function(log, r, $) {
         isGameOver: true,
         isFirstMove: true,
     },
+    gameView = views.gameView,
     resetGameWith = module.resetGameWith = function(newRows, newCols, newBombs) {
         rows = newRows;
         cols = newCols;
@@ -28,6 +29,7 @@ define(['log', 'random', 'zepto'], function(log, r, $) {
         for (i = 0; i < rows; i++) {
             gameTable.push(addRow(i));
         }
+        gameView.bombCount(bombs);
 
         log.event('reset', 'r:' + rows + ',c:' + cols + ',bombs:' + bombs);
     }, 
@@ -187,8 +189,10 @@ define(['log', 'random', 'zepto'], function(log, r, $) {
             data.e.toggleClass('flag');
             if (data.e.hasClass('flag')) {
                 data.e.append('<i class="glyphicon glyphicon-flag"></i>');
+                gameView.bombCount(gameView.bombCount()-1);
             } else {
                 data.e.children().remove();
+                gameView.bombCount(gameView.bombCount()+1);
             }
         }
 

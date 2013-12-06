@@ -17,7 +17,7 @@ module.exports = function(grunt) {
 		},
 		watch: {
 			scripts: {
-				files: ['./www/scripts/game/**/*.js'],
+				files: ['./www/scripts/game/**/*.js', './www/scripts/main.js'],
 				tasks: ['jshint:scripts']
 			},
 			gruntfile: {

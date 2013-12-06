@@ -1,4 +1,4 @@
-define(['zepto', 'random', 'log', 'board'], function($, r, log, board) {
+define(['zepto', 'random', 'log', 'board'], function($, r, log, board, views) {
 
     var middleButtonDown = false;
 
