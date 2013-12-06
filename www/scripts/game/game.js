@@ -1,6 +1,7 @@
-define(['zepto', 'random', 'log', 'board'], function($, r, log, board, views) {
+define(['zepto', 'random', 'log', 'board', 'views'], function($, r, log, board, views) {
 
-    var middleButtonDown = false;
+    var middleButtonDown = false,
+        gameView = views.gameView;
 
     $(document).on('click', '.game-area td', function(evt) {
         // Only handle left-click
@@ -8,7 +9,7 @@ define(['zepto', 'random', 'log', 'board'], function($, r, log, board, views) {
             return;
         }
         
-        if (board.isGameOver) {
+        if (gameView.isGameOver()) {
             board.resetGame();
             return;
         }
@@ -20,7 +21,7 @@ define(['zepto', 'random', 'log', 'board'], function($, r, log, board, views) {
     });
 
     $(document).on('contextmenu', '.game-area td', function(evt) {
-        if (board.isGameOver) {
+        if (gameView.isGameOver()) {
             return;
         }
         var $e = $(this),
@@ -38,7 +39,7 @@ define(['zepto', 'random', 'log', 'board'], function($, r, log, board, views) {
             return;
         }
 
-        if (board.isGameOver) {
+        if (gameView.isGameOver()) {
             return;
         }
         

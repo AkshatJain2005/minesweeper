@@ -4,11 +4,8 @@ define(['log', 'random', 'zepto', 'views'], function(log, r, $, views) {
     cols = 9, 
     bombs = 10, 
     gameTable, 
-    module = {
-        isGameOver: true,
-        isFirstMove: true,
-    },
     gameView = views.gameView,
+    module = {},
     resetGameWith = module.resetGameWith = function(newRows, newCols, newBombs) {
         rows = newRows;
         cols = newCols;
@@ -19,9 +16,8 @@ define(['log', 'random', 'zepto', 'views'], function(log, r, $, views) {
     resetGame = module.resetGame = function() {
         var i;
 
-        module.isGameOver = false;
-        module.isFirstMove = true;
-        $('body').removeClass('fail').removeClass('win');
+        gameView.isGameOver(false);
+        gameView.isFirstMove(true);
 
         $('.game-area').children().remove();
         gameTable = [];
@@ -146,7 +142,7 @@ define(['log', 'random', 'zepto', 'views'], function(log, r, $, views) {
     },
     handleTile = module.handleTile = function(x, y, condition) {
         // Early exit if game is over
-        if (module.isGameOver) {
+        if (gameView.isGameOver()) {
             return;
         }
 
@@ -158,16 +154,17 @@ define(['log', 'random', 'zepto', 'views'], function(log, r, $, views) {
             }
         }
 
-        if (module.isFirstMove) {
+        if (gameView.isFirstMove()) {
             putBombs({
                 x: x,
                 y: y
             });
-            module.isFirstMove = false;
+            gameView.isFirstMove(false);
         }
 
         if(data.hasBomb && !data.e.hasClass('flag')) {
-            module.isGameOver = true;
+            gameView.didWin(false);
+            gameView.isGameOver(true);
             revealBombs();
             $('body').addClass('fail');
             data.e.addClass('hit');
@@ -175,8 +172,8 @@ define(['log', 'random', 'zepto', 'views'], function(log, r, $, views) {
         } else {
             reveal(x, y);
             if (hasRevealedAllTiles()) {
-                module.isGameOver = true;
-                $('body').addClass('win');
+                gameView.didWin(true);
+                gameView.isGameOver(true);
                 revealBombs('flag');
                 log.event('gameover', 'win');
             }
