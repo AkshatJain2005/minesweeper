@@ -216,6 +216,9 @@ define(['log', 'random', 'zepto', 'views'], function(log, r, $, views) {
         }
     },
     handleMiddleClick = module.handleMiddleClick = function (x, y) {
+        if (!gameTable[y][x].e.hasClass('revealed')) {
+            return;
+        }
         callForMiddleClickArea(x, y, function (x, y) {
             handleTile(x, y, function (data) {
                 // We only want to reveal unflagged tiles
