@@ -13,6 +13,9 @@ define(['log', 'random', 'zepto', 'views'], function(log, r, $, views) {
 
         resetGame();
     },
+    getDifficultyString = function() {
+        return 'r:' + rows + ',c:' + cols + ',bombs:' + bombs;
+    },
     resetGame = module.resetGame = function() {
         var i;
 
@@ -24,7 +27,7 @@ define(['log', 'random', 'zepto', 'views'], function(log, r, $, views) {
         }
         gameView.resetGame(bombs);
 
-        log.event('reset', 'r:' + rows + ',c:' + cols + ',bombs:' + bombs);
+        log.event('reset', getDifficultyString());
     }, 
     putBombs = module.putBombs = function(except) {
         var bCount = bombs, x, y, curr;
@@ -165,12 +168,14 @@ define(['log', 'random', 'zepto', 'views'], function(log, r, $, views) {
             $('body').addClass('fail');
             data.e.addClass('hit');
             log.event('gameover', 'fail');
+            log.event('failWith', getDifficultyString());
         } else {
             reveal(x, y);
             if (hasRevealedAllTiles()) {
                 gameView.stopGame(true);
                 revealBombs('flag');
                 log.event('gameover', 'win');
+                log.event('winWith', getDifficultyString());
             }
         }
     },
