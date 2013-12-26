@@ -16,16 +16,13 @@ define(['log', 'random', 'zepto', 'views'], function(log, r, $, views) {
     resetGame = module.resetGame = function() {
         var i;
 
-        gameView.isGameOver(false);
-        gameView.isFirstMove(true);
-
         $('.game-area').children().remove();
         gameTable = [];
 
         for (i = 0; i < rows; i++) {
             gameTable.push(addRow(i));
         }
-        gameView.bombCount(bombs);
+        gameView.resetGame(bombs);
 
         log.event('reset', 'r:' + rows + ',c:' + cols + ',bombs:' + bombs);
     }, 
@@ -159,12 +156,11 @@ define(['log', 'random', 'zepto', 'views'], function(log, r, $, views) {
                 x: x,
                 y: y
             });
-            gameView.isFirstMove(false);
+            gameView.startGame();
         }
 
         if(data.hasBomb && !data.e.hasClass('flag')) {
-            gameView.didWin(false);
-            gameView.isGameOver(true);
+            gameView.stopGame(false);
             revealBombs();
             $('body').addClass('fail');
             data.e.addClass('hit');
@@ -172,8 +168,7 @@ define(['log', 'random', 'zepto', 'views'], function(log, r, $, views) {
         } else {
             reveal(x, y);
             if (hasRevealedAllTiles()) {
-                gameView.didWin(true);
-                gameView.isGameOver(true);
+                gameView.stopGame(true);
                 revealBombs('flag');
                 log.event('gameover', 'win');
             }
@@ -216,6 +211,9 @@ define(['log', 'random', 'zepto', 'views'], function(log, r, $, views) {
         }
     },
     handleMiddleClick = module.handleMiddleClick = function (x, y) {
+        if (!gameTable[y][x].e.hasClass('revealed')) {
+            return;
+        }
         callForMiddleClickArea(x, y, function (x, y) {
             handleTile(x, y, function (data) {
                 // We only want to reveal unflagged tiles

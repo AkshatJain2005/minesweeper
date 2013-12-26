@@ -14,7 +14,35 @@ define(['knockout'], function(ko) {
         this.hasLost = ko.computed(function() {
             return this.isGameOver() && !this.didWin();
         }, this);
+
     },
+    instance;
+
+    GameView.prototype.resetGame = function(bombCount) {
+        this.isGameOver(false);
+        this.isFirstMove(true);
+        this.bombCount(bombCount);
+        this.timer(0);
+    };
+
+    GameView.prototype.startGame = function() {
+        var startTime = new Date(),
+            timer = this.timer;
+
+        this.interval = window.setInterval(function() {
+            var diff = (new Date()).getTime() - startTime.getTime();
+            timer(Math.floor(diff / 1000));
+        }, 500);
+
+        this.isFirstMove(false);
+    };
+
+    GameView.prototype.stopGame = function(winCondition) {
+        window.clearInterval(this.interval);
+        this.isGameOver(true);
+        this.didWin(winCondition);
+    };
+
     instance = new GameView();
 
     ko.applyBindings(instance);
